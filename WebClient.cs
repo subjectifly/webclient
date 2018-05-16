@@ -22,22 +22,22 @@ namespace WebClient
 		/// <value>The timeout.</value>
 		public TimeSpan Timeout { get; set; }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="WebClient.WebClient"/> class.
-		/// </summary>
-		public WebClient ()
-		{
-			handler = new HttpClientHandler ();
-			//handler.PreAuthenticate = true;
-			handler.UseDefaultCredentials = true;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebClient"/> class, for Bearer credentials
+        /// <paramref name="useDefaultCredentials">Optional to allow override of default credentials for other than Basic authorization types</paramref>
+        /// </summary>
+        public WebClient(bool useDefaultCredentials = true)
+        {
+            handler = new HttpClientHandler();
+            handler.UseDefaultCredentials = useDefaultCredentials;
+        }
 
-		/// <summary>
-		/// Execute specified HTTP request.
-		/// </summary>
-		/// <returns>HTTP Response.</returns>
-		/// <param name="request">HTTP Request.</param>
-		public HttpResponseMessage Execute(HttpRequestMessage request) {
+        /// <summary>
+        /// Execute specified HTTP request.
+        /// </summary>
+        /// <returns>HTTP Response.</returns>
+        /// <param name="request">HTTP Request.</param>
+        public HttpResponseMessage Execute(HttpRequestMessage request) {
 			return ExecuteAsync (request).Result;
 		}
 
@@ -133,6 +133,11 @@ namespace WebClient
 				handler.UseProxy = (handler.Proxy != null) ? true : false;
 			}
 		}
+
+        /// <summary>
+        /// Gets or sets the authorization Header name
+        /// </summary>
+	    public string AuthorizationType { get; set; }
 	}
 }
 
